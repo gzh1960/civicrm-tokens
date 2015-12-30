@@ -1,5 +1,5 @@
 # civicrm-tokens
-This  will contain CiviCRM tokens
+Wordpress module adding custom tokens to civiCRM 4.6 to get data via a relationship record
 Created  30-Dec-2015
 // yahrzeitinfo defines custom tokens for the civiCRM installation.
 // These tokens allow the mourner's contact with a relationship type 'Yahrzeit observed in memory of' to include tokens from 
