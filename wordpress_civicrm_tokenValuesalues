@@ -1,0 +1,37 @@
+
+// search up values and attribute to the defined tokens
+function wordpress_civicrm_tokenValues(&$details, $contactIDs, $jobID = null, $tokens = array(), $className = null) {
+  foreach ($contactIDs as $cid) {
+// nested api call to grab custom yahrzeit fields based on relationship type 'Yahrzeit observed in memory of', wrapped in try-catch block so a bad call by user won't break site
+    try{
+      $result = civicrm_api3('Relationship', 'getsingle', array(
+        'sequential' => 1,
+        'contact_id_b' => $cid,
+        'relationship_type_id' => 10,
+        'api.Contact.getsingle' => array('id' => "\$value.contact_id_a", 'return' => array("custom_22", "custom_21", "custom_19", "custom_18")),
+//
+//        'api.Contact.getsingle' => array('id' => "\$value.contact_id_a", 'return' => array("deceased_hebrew_name_18", "deceased_first_name", "deceased_last_name", "related_shabbat_english_date_22")),
+//
+        'options' => array('limit' => 1),
+        'is_active' => 1,
+      ));
+// check array keys to determine which tokens were called for, and define those token values
+	  if (array_key_exists('custom_22', $tokens['yahrzeitinfo'])) {
+	    $details[$cid]['yahrzeitinfo.custom_22'] = $result['api.Contact.getsingle']['custom_22'];
+	  }
+	  if (array_key_exists('custom_21', $tokens['yahrzeitinfo'])) {
+        $details[$cid]['yahrzeitinfo.custom_21'] = $result['api.Contact.getsingle']['custom_21'];
+	  }
+	  if (array_key_exists('custom_19', $tokens['yahrzeitinfo'])) {
+        $details[$cid]['yahrzeitinfo.custom_19'] = $result['api.Contact.getsingle']['custom_19'];
+	  }
+	  if (array_key_exists('custom_18', $tokens['yahrzeitinfo'])) {
+        $details[$cid]['yahrzeitinfo.custom_18'] = $result['api.Contact.getsingle']['custom_18'];
+	  }
+    }
+// catch api3 errors in watchdog
+	catch (CiviCRM_API3_Exception $e) {
+      watchdog('yahrzeitinfo', $error = $e->getMessage());
+    }
+  }
+}
