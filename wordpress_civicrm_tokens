@@ -1,10 +1,7 @@
-
 // yahrzeitinfo defines custom tokens for the Cremorne Syangogue civiCRM installation.
 // These tokens allow the mourner's contact with a relationship type 'Yahrzeit observed in memory of' to include tokens from
 // the yahrzeit info stored on the relationship record for the deceased person.
  
-  
-
 // define custom token array as they will appear in civiCRM
 function wordpress_civicrm_tokens(&$tokens) {
   $tokens['yahrzeitinfo'] = array('yahrzeitinfo.custom_22' => 'related Shabbat English date',
